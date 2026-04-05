@@ -672,11 +672,9 @@
 
   <div class="intro" id="intro" role="dialog" aria-labelledby="introNameLabel" aria-modal="true">
     <div class="intro-ornament" aria-hidden="true"></div>
-    <p class="intro-whisper">Personally from Mayur Bobade</p>
-    <p class="intro-name" id="introNameLabel" aria-label="Rishi">
-      <span class="letter" style="animation-delay: 0.55s">R</span><span class="letter" style="animation-delay: 0.62s">i</span><span class="letter" style="animation-delay: 0.69s">s</span><span class="letter" style="animation-delay: 0.76s">h</span><span class="letter" style="animation-delay: 0.83s">i</span>
-    </p>
-    <p class="intro-message">
+    <p class="intro-whisper" id="introWhisper">Personally from Mayur Bobade</p>
+    <p class="intro-name" id="introNameLabel" aria-label="Rishi"></p>
+    <p class="intro-message" id="introMessage">
       You matter to me more than everyday words can carry. Milind and Manisha’s wedding is the centre of our family’s joy—and I wanted you to feel, in every detail, how much it would mean to have you there with us.
     </p>
     <button type="button" class="intro-cta" id="introOpen">Open your invitation</button>
@@ -699,13 +697,13 @@
 
         <div class="content">
           <p class="label-top stagger-1">Wedding invitation</p>
-          <p class="invitation-subtitle stagger-2">Extended especially for you</p>
+          <p class="invitation-subtitle stagger-2" id="invitationSubtitle">Extended especially for you</p>
 
-          <p class="salutation stagger-3">Dear Rishi,</p>
-          <p class="welcome-family">
+          <p class="salutation stagger-3" id="salutation">Dear Rishi,</p>
+          <p class="welcome-family" id="welcomeFamily">
             For us, this invitation is not just a line on a card—it is a quiet way of saying that you belong in our fold. We want you to feel the same warmth we feel for our own: to walk in not as someone “attending,” but as part of the laughter, the prayers, and the blessings that will fill our home that day. Your place with us is special, and we would be deeply honoured to have you share this chapter as family shares joy—with open hearts and open arms.
           </p>
-          <p class="personal-msg stagger-5">
+          <p class="personal-msg stagger-5" id="personalMsg">
             I’m <strong style="font-weight:600;color:var(--gold-light);">Mayur Bobade</strong>. Milind and Manisha are beginning their life together, and I’m reaching out to you personally—because your presence would deepen our happiness in a way I can’t quite put on paper. If you can be there, it would truly mean the world to me and to our family.
           </p>
 
@@ -729,10 +727,10 @@
           </p>
           <p class="date-highlight">28 April 2026 · Baraat 4:30 p.m. · Ceremony 9:30 p.m.</p>
 
-          <p class="closing">
+          <p class="closing" id="closingLine">
             We are holding a seat for you in our hearts and at our celebration.
           </p>
-          <p class="sign-off">Mayur Bobade — with gratitude &amp; anticipation</p>
+          <p class="sign-off" id="signOff">Mayur Bobade — with gratitude &amp; anticipation</p>
           <p class="mayur-contact">
             <span class="mayur-contact-label">Mayur</span>
             <a href="tel:+917224902187">+91&nbsp;72249&nbsp;02187</a>
@@ -789,6 +787,98 @@
 
   <script>
     (function () {
+      function resolveVariant() {
+        var p = new URLSearchParams(window.location.search);
+        var raw = (p.get("to") || "rishi").toLowerCase().trim();
+        if (raw === "office" || raw === "friends" || raw === "staff") return "office";
+        if (raw === "akansha") return "akansha";
+        return "rishi";
+      }
+
+      function fillNameLetters(el, name) {
+        el.textContent = "";
+        el.setAttribute("aria-label", name);
+        for (var i = 0; i < name.length; i++) {
+          var ch = name.charAt(i);
+          if (ch === " ") {
+            el.appendChild(document.createTextNode("\u00a0"));
+            continue;
+          }
+          var span = document.createElement("span");
+          span.className = "letter";
+          span.textContent = ch;
+          span.style.animationDelay = 0.48 + i * 0.07 + "s";
+          el.appendChild(span);
+        }
+      }
+
+      function applyGuestCopy() {
+        var v = resolveVariant();
+        var copy = {
+          rishi: {
+            title: "Mayur Bobade invites Rishi — Milind & Manisha",
+            introWhisper: "Personally from Mayur Bobade",
+            introName: "Rishi",
+            introMessage:
+              "You matter to me more than everyday words can carry. Milind and Manisha’s wedding is the centre of our family’s joy—and I wanted you to feel, in every detail, how much it would mean to have you there with us.",
+            invitationSubtitle: "Extended especially for you",
+            salutation: "Dear Rishi,",
+            welcomeFamily:
+              "For us, this invitation is not just a line on a card—it is a quiet way of saying that you belong in our fold. We want you to feel the same warmth we feel for our own: to walk in not as someone “attending,” but as part of the laughter, the prayers, and the blessings that will fill our home that day. Your place with us is special, and we would be deeply honoured to have you share this chapter as family shares joy—with open hearts and open arms.",
+            personalMsg:
+              'I’m <strong style="font-weight:600;color:var(--gold-light);">Mayur Bobade</strong>. Milind and Manisha are beginning their life together, and I’m reaching out to you personally—because your presence would deepen our happiness in a way I can’t quite put on paper. If you can be there, it would truly mean the world to me and to our family.',
+            closingLine:
+              "We are holding a seat for you in our hearts and at our celebration.",
+            signOff: "Mayur Bobade — with gratitude & anticipation",
+          },
+          office: {
+            title: "Milind & Manisha — wedding invitation",
+            introWhisper: "From Mayur Bobade & family",
+            introName: "Friends",
+            introMessage:
+              "Milind and Manisha are getting married—and we would be glad to celebrate with friends and colleagues. This page has the dates, programme, and details. Thank you for the warmth you bring to our lives, at work and beyond.",
+            invitationSubtitle: "Dates, programme & details inside",
+            salutation: "Dear friends,",
+            welcomeFamily:
+              "We are happy to share this joy with our extended circle. Your good wishes mean a great deal. If you can join us for any of the functions, we will be honoured; if you cannot, we understand completely—and we are grateful for your kindness from afar.",
+            personalMsg:
+              'Warm regards from <strong style="font-weight:600;color:var(--gold-light);">Mayur Bobade</strong>. For directions, timings, or any query, please use the number on this card—we will help whenever you need.',
+            closingLine:
+              "With respect and gratitude — we hope to see many of you there.",
+            signOff: "Mayur Bobade — with thanks",
+          },
+          akansha: {
+            title: "Mayur invites Akansha — Milind & Manisha",
+            introWhisper: "Personally from Mayur Bobade",
+            introName: "Akansha",
+            introMessage:
+              "You’re a good friend—and I know you’re Rishi’s roommate too. I wanted you to have a clear, proper invite for Milind and Manisha’s wedding: everything you need is on this page. Straightforward and warm, just like us.",
+            invitationSubtitle: "For you — please read when you can",
+            salutation: "Dear Akansha,",
+            welcomeFamily:
+              "Our family would be really happy if you could join the festivities. Come on your own or with Rishi—whatever suits you and your schedule. There’s no fuss either way; we just wanted you to have the full picture as a friend.",
+            personalMsg:
+              'This is <strong style="font-weight:600;color:var(--gold-light);">Mayur Bobade</strong>—ping me if any date or logistics is confusing. It would be lovely to see you there if it works out.',
+            closingLine:
+              "Hoping you can make it — and either way, thanks for being a solid friend.",
+            signOff: "Mayur Bobade — with gratitude & anticipation",
+          },
+        };
+        var c = copy[v];
+        document.title = c.title;
+        document.getElementById("introWhisper").textContent = c.introWhisper;
+        fillNameLetters(document.getElementById("introNameLabel"), c.introName);
+        document.getElementById("introMessage").textContent = c.introMessage;
+        document.getElementById("invitationSubtitle").textContent = c.invitationSubtitle;
+        document.getElementById("salutation").textContent = c.salutation;
+        document.getElementById("welcomeFamily").textContent = c.welcomeFamily;
+        document.getElementById("personalMsg").innerHTML = c.personalMsg;
+        document.getElementById("closingLine").textContent = c.closingLine;
+        document.getElementById("signOff").textContent = c.signOff;
+      }
+
+      applyGuestCopy();
+
       var n = 32;
       var root = document.getElementById("particles");
       for (var i = 0; i < n; i++) {
