@@ -791,6 +791,7 @@
         var p = new URLSearchParams(window.location.search);
         var raw = (p.get("to") || "rishi").toLowerCase().trim();
         if (raw === "office" || raw === "friends" || raw === "staff") return "office";
+        if (raw === "team") return "team";
         if (raw === "akansha") return "akansha";
         return "rishi";
       }
@@ -845,6 +846,22 @@
               'Warm regards from <strong style="font-weight:600;color:var(--gold-light);">Mayur Bobade</strong>. For directions, timings, or any query, please use the number on this card—we will help whenever you need.',
             closingLine:
               "With respect and gratitude — we hope to see many of you there.",
+            signOff: "Mayur Bobade — with thanks",
+          },
+          team: {
+            title: "Milind & Manisha — for our team",
+            introWhisper: "From Mayur Bobade & family",
+            introName: "Team",
+            introMessage:
+              "Milind and Manisha are getting married—and I wanted our team to have the same clear invite everyone else gets. Dates, programme, and details are all here. Thank you for the support and energy you bring every day; it means more than a formality can say.",
+            invitationSubtitle: "Team invite — dates & programme inside",
+            salutation: "Dear team,",
+            welcomeFamily:
+              "We would be glad to celebrate with you outside office walls too. Your good wishes matter a great deal. If any of you can join for a function or two, we will be honoured; if schedules do not allow, we completely understand—and we remain grateful for how you stand by us at work.",
+            personalMsg:
+              'Regards from <strong style="font-weight:600;color:var(--gold-light);">Mayur Bobade</strong>. For directions, leave, or timings, message or call on the number below—I will help sort it out.',
+            closingLine:
+              "With respect and warmth — it would be wonderful to see teammates there.",
             signOff: "Mayur Bobade — with thanks",
           },
           akansha: {
