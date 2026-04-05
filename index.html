@@ -788,8 +788,25 @@
   <script>
     (function () {
       function resolveVariant() {
+        try {
+          var stored = sessionStorage.getItem("weddingInviteVariant");
+          if (stored) {
+            sessionStorage.removeItem("weddingInviteVariant");
+            var sv = String(stored).toLowerCase().trim();
+            if (sv === "office" || sv === "friends" || sv === "staff") return "office";
+            if (sv === "team") return "team";
+            if (sv === "akansha") return "akansha";
+            if (sv === "rishi") return "rishi";
+          }
+        } catch (e) {}
+
         var p = new URLSearchParams(window.location.search);
-        var raw = (p.get("to") || "rishi").toLowerCase().trim();
+        var raw = (p.get("to") || "").toLowerCase().trim();
+        if (!raw) {
+          raw = (window.location.hash || "").replace(/^#/, "").toLowerCase().trim();
+        }
+        if (!raw) return "rishi";
+
         if (raw === "office" || raw === "friends" || raw === "staff") return "office";
         if (raw === "team") return "team";
         if (raw === "akansha") return "akansha";
